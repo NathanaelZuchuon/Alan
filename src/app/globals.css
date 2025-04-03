@@ -1,15 +1,14 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-	--background: #ffffff;
-	--foreground: #171717;
-}
-
-@theme inline {
+	--background: #171717;
+	--foreground: #ffffff;
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
-	--font-sans: var(--font-geist-sans);
-	--font-mono: var(--font-geist-mono);
+	--font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	--font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,5 +21,91 @@
 body {
 	background: var(--background);
 	color: var(--foreground);
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: var(--font-sans);
+}
+
+/* Suppression du logo Next.js */
+[data-nextjs-portal],
+#__next-build-watcher {
+	display: none !important;
+}
+
+/* Cache également tout élément avec la classe next- */
+[class^="next-"],
+[class*=" next-"] {
+	display: none !important;
+}
+
+/* Styles pour ConversationList */
+.conversation-container {
+	max-width: 100%;
+	overflow-x: hidden;
+}
+
+/* Media queries pour le responsive */
+@media (max-width: 768px) {
+	.conversation-list {
+		width: 100% !important;
+	}
+
+	.conversation-list-mobile {
+		transform: translateX(-100%);
+		transition: transform 0.3s ease-in-out;
+	}
+
+	.conversation-list-mobile.active {
+		transform: translateX(0);
+	}
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+	.conversation-list {
+		width: 320px !important;
+	}
+}
+
+@media (min-width: 1025px) {
+	.conversation-list {
+		width: 380px !important;
+	}
+}
+
+/* Styles pour améliorer le scrolling */
+.custom-scrollbar {
+	scrollbar-width: thin;
+	scrollbar-color: #888 #f1f1f1;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+	width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+	background: #888;
+	border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+
+/* Optimisations pour le texte */
+.text-ellipsis {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+/* Classes utilitaires pour les barres de défilement */
+.no-scrollbar::-webkit-scrollbar {
+	display: none;
+}
+
+.no-scrollbar {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
 }
