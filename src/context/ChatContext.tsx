@@ -2,6 +2,8 @@
 
 import { createContext, ReactNode, useContext, useState } from "react";
 
+import { SnappyHTTPClient, SnappySocketClient, ISnappySocketClient } from "snappy";
+
 import { conversations } from "@/datas/mockDatas";
 import { Conversation } from "@/types/interfaces";
 
