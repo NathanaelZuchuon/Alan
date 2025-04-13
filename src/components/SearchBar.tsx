@@ -1,55 +1,71 @@
 "use client";
 
-/**
- * Composant de recherche
- *
- * Fonctionnalités à implémenter:
- * - Recherche en temps réel
- * - Filtrage des conversations
- * - Suggestions de recherche
- *
- * Points d'intégration backend:
- * - API de recherche
- * - Indexation des messages
- * - Cache des résultats fréquents
- */
-
 import { useState, useEffect, useRef } from "react";
 
 interface SearchProps {
 	onSearch: (term: string) => void;
-	suggestions?: string[];
+	suggestions?: string[]; // Suggestions de recherches
 	placeholder?: string;
 }
 
-export default function SearchBar({
-	onSearch,
-	//suggestions = [],
-	placeholder = "Rechercher des messages ou contacts...",
-}: SearchProps) {
+export const SearchBar: React.FC<SearchProps> = ({ onSearch, suggestions = [], placeholder = "Rechercher des messages ou contacts..."}: SearchProps) => {
+	const inputRef = useRef<HTMLInputElement>(null);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [isSearching, setIsSearching] = useState(false);
-	const inputRef = useRef<HTMLInputElement>(null);
+	const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+	const searchingTimerRef = useRef<NodeJS.Timeout | null>(null);
+	
 
-	// Debounce pour la recherche
+	// Gestion de la recherche avec debounce
 	useEffect(() => {
-		const debounceTimer = setTimeout(() => {
-			if (searchTerm) {
+		// Nettoyage des timers existants
+		if (debounceTimerRef.current) {
+			clearTimeout(debounceTimerRef.current);
+		}
+		if (searchingTimerRef.current) {
+			clearTimeout(searchingTimerRef.current);
+		}
+
+		// Mettre en place un nouveau timer pour la recherche
+		if (searchTerm) {
+			debounceTimerRef.current = setTimeout(() => {
+				// Commencer à chercher
 				setIsSearching(true);
 				onSearch(searchTerm);
-				setTimeout(() => setIsSearching(false), 300);
-			}
-		}, 200);
+				
+				// Configurer le timer pour arrêter l'animation après 300ms
+				searchingTimerRef.current = setTimeout(() => {
+					setIsSearching(false);
+				}, 300);
+			}, 200);
+		} else {
+			// Si le terme de recherche est vide, réinitialiser
+			setIsSearching(false);
+			onSearch("");
+		}
 
-		return () => clearTimeout(debounceTimer);
+		// Nettoyage lors du démontage
+		return () => {
+			if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+			if (searchingTimerRef.current) clearTimeout(searchingTimerRef.current);
+		};
 	}, [searchTerm, onSearch]);
 
 	const clearSearch = () => {
+		// Nettoyage des timers existants
+		if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+		if (searchingTimerRef.current) clearTimeout(searchingTimerRef.current);
+		
 		setSearchTerm("");
+		setIsSearching(false);
 		onSearch(""); // Réinitialise la recherche
 		if (inputRef.current) {
 			inputRef.current.focus();
 		}
+	};
+
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setSearchTerm(e.target.value);
 	};
 
 	return (
@@ -59,16 +75,13 @@ export default function SearchBar({
 					ref={inputRef}
 					type="text"
 					value={searchTerm}
-					onChange={(e) => setSearchTerm(e.target.value)}
+					onChange={handleChange}
 					placeholder={placeholder}
-					className="w-full p-2 pl-10 pr-10 text-gray-900 placeholder-gray-500 
-            border border-gray-200 rounded-lg 
-            focus:outline-none focus:ring-2 focus:ring-blue-500 
-            transition-all bg-white"
+					className="w-full p-2 pl-10 pr-10 text-gray-900 placeholder-gray-500 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all bg-white"
 				/>
 
-				{/* Icône de recherche ou loader */}
-				<div className="absolute left-3 top-2.5">
+				{/* Icône de recherche ou loader - avec conteneur fixe pour éviter les sauts */}
+				<div className="absolute left-3 top-2.5 h-5 w-5 flex items-center justify-center">
 					{isSearching ? (
 						<svg
 							className="animate-spin h-5 w-5 text-gray-400"
@@ -96,6 +109,7 @@ export default function SearchBar({
 							fill="none"
 							stroke="currentColor"
 							viewBox="0 0 24 24"
+							xmlns="http://www.w3.org/2000/svg"
 						>
 							<path
 								strokeLinecap="round"
@@ -112,12 +126,14 @@ export default function SearchBar({
 					<button
 						onClick={clearSearch}
 						className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600"
+						aria-label="Effacer la recherche"
 					>
 						<svg
 							className="h-5 w-5"
 							fill="none"
 							stroke="currentColor"
 							viewBox="0 0 24 24"
+							xmlns="http://www.w3.org/2000/svg"
 						>
 							<path
 								strokeLinecap="round"

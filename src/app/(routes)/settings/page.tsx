@@ -44,7 +44,9 @@ export default function SettingsPage() {
 
 			{/* General Settings */}
 			<div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-				<h2 className="text-xl font-semibold mb-4">Paramètres généraux</h2>
+				<h2 className="text-xl font-semibold mb-4">
+					Paramètres généraux
+				</h2>
 				<div className="space-y-4">
 					<div className="flex items-center justify-between">
 						<span>Notifications</span>
@@ -53,7 +55,10 @@ export default function SettingsPage() {
 								type="checkbox"
 								checked={settings.notifications}
 								onChange={(e) =>
-									handleSettingChange("notifications", e.target.checked)
+									handleSettingChange(
+										"notifications",
+										e.target.checked
+									)
 								}
 								className="sr-only peer"
 							/>
@@ -68,7 +73,10 @@ export default function SettingsPage() {
 								type="checkbox"
 								checked={settings.soundEnabled}
 								onChange={(e) =>
-									handleSettingChange("soundEnabled", e.target.checked)
+									handleSettingChange(
+										"soundEnabled",
+										e.target.checked
+									)
 								}
 								className="sr-only peer"
 							/>
@@ -82,7 +90,12 @@ export default function SettingsPage() {
 							<input
 								type="checkbox"
 								checked={settings.darkMode}
-								onChange={(e) => handleSettingChange("darkMode", e.target.checked)}
+								onChange={(e) =>
+									handleSettingChange(
+										"darkMode",
+										e.target.checked
+									)
+								}
 								className="sr-only peer"
 							/>
 							<div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
@@ -93,7 +106,9 @@ export default function SettingsPage() {
 						<span>Langue</span>
 						<select
 							value={settings.language}
-							onChange={(e) => handleSettingChange("language", e.target.value)}
+							onChange={(e) =>
+								handleSettingChange("language", e.target.value)
+							}
 							className="p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
 						>
 							<option value="fr">Français</option>
@@ -105,7 +120,9 @@ export default function SettingsPage() {
 						<span>Statut</span>
 						<select
 							value={settings.status}
-							onChange={(e) => handleSettingChange("status", e.target.value)}
+							onChange={(e) =>
+								handleSettingChange("status", e.target.value)
+							}
 							className="p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
 						>
 							<option value="active">Actif</option>
@@ -119,7 +136,9 @@ export default function SettingsPage() {
 
 			{/* Account Actions */}
 			<div className="bg-white rounded-lg shadow-lg p-6">
-				<h2 className="text-xl font-semibold mb-4">Actions du compte</h2>
+				<h2 className="text-xl font-semibold mb-4">
+					Actions du compte
+				</h2>
 				<div className="space-y-4">
 					<button
 						onClick={handleLogout}
@@ -140,10 +159,12 @@ export default function SettingsPage() {
 			{showDeactivateModal && (
 				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
 					<div className="bg-white rounded-lg p-6 max-w-md w-full m-4">
-						<h3 className="text-xl font-bold mb-4">Désactiver le compte</h3>
+						<h3 className="text-xl font-bold mb-4">
+							Désactiver le compte
+						</h3>
 						<p className="text-gray-600 mb-6">
-							Êtes-vous sûr de vouloir désactiver votre compte ? Cette action est
-							irréversible.
+							Êtes-vous sûr de vouloir désactiver votre compte ?
+							Cette action est irréversible.
 						</p>
 						<div className="flex justify-end space-x-4">
 							<button

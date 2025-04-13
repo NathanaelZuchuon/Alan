@@ -14,8 +14,18 @@ export default function NewChatPage() {
 
 	const contacts: Contact[] = [
 		{ id: "1", name: "Alice Smith", avatar: "/pic1.jpg", status: "online" },
-		{ id: "2", name: "Bob Johnson", avatar: "/pic3.jpeg", status: "offline" },
-		{ id: "3", name: "Carol Williams", avatar: "/pic4.jpg", status: "online" },
+		{
+			id: "2",
+			name: "Bob Johnson",
+			avatar: "/pic3.jpeg",
+			status: "offline",
+		},
+		{
+			id: "3",
+			name: "Carol Williams",
+			avatar: "/pic4.jpg",
+			status: "online",
+		},
 	];
 
 	const filteredContacts = contacts.filter((contact) =>

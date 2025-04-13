@@ -1,5 +1,10 @@
+/* @import tailwindcss/base; */
 @tailwind base;
+
+/* @import tailwindcss/components; */
 @tailwind components;
+
+/* @import tailwindcss/utilities; */
 @tailwind utilities;
 
 :root {
@@ -7,8 +12,11 @@
 	--foreground: #ffffff;
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
-	--font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-	--font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+	--font-sans:
+		system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+		sans-serif;
+	--font-mono:
+		ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -108,4 +116,19 @@ body {
 .no-scrollbar {
 	-ms-overflow-style: none;
 	scrollbar-width: none;
+}
+
+/* Animation for loading indicator */
+@keyframes pulse {
+	0%,
+	100% {
+		opacity: 0.5;
+	}
+	50% {
+		opacity: 1;
+	}
+}
+
+.animate-pulse {
+	animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }

@@ -55,11 +55,18 @@ export default function AlanPage() {
 				<button
 					onClick={() => handleModeChange("listen")}
 					className={`p-3 rounded-full ${
-						mode === "listen" ? "bg-green-500 text-white" : "bg-gray-100"
+						mode === "listen"
+							? "bg-green-500 text-white"
+							: "bg-gray-100"
 					}`}
 					title="Mode écoute"
 				>
-					<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<svg
+						className="w-6 h-6"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+					>
 						<path
 							strokeLinecap="round"
 							strokeLinejoin="round"
@@ -72,11 +79,18 @@ export default function AlanPage() {
 				<button
 					onClick={() => handleModeChange("pause")}
 					className={`p-3 rounded-full ${
-						mode === "pause" ? "bg-yellow-500 text-white" : "bg-gray-100"
+						mode === "pause"
+							? "bg-yellow-500 text-white"
+							: "bg-gray-100"
 					}`}
 					title="Mode pause"
 				>
-					<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<svg
+						className="w-6 h-6"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+					>
 						<path
 							strokeLinecap="round"
 							strokeLinejoin="round"
@@ -89,11 +103,18 @@ export default function AlanPage() {
 				<button
 					onClick={() => handleModeChange("write")}
 					className={`p-3 rounded-full ${
-						mode === "write" ? "bg-blue-500 text-white" : "bg-gray-100"
+						mode === "write"
+							? "bg-blue-500 text-white"
+							: "bg-gray-100"
 					}`}
 					title="Mode écriture"
 				>
-					<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<svg
+						className="w-6 h-6"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+					>
 						<path
 							strokeLinecap="round"
 							strokeLinejoin="round"
@@ -111,7 +132,9 @@ export default function AlanPage() {
 						<div
 							key={message.id}
 							className={`flex ${
-								message.sender === "user" ? "justify-end" : "justify-start"
+								message.sender === "user"
+									? "justify-end"
+									: "justify-start"
 							}`}
 						>
 							<div
@@ -139,7 +162,9 @@ export default function AlanPage() {
 						type="text"
 						value={inputText}
 						onChange={(e) => setInputText(e.target.value)}
-						onKeyPress={(e) => e.key === "Enter" && handleSendMessage(inputText)}
+						onKeyDown={(e) =>
+							e.key === "Enter" && handleSendMessage(inputText)
+						}
 						placeholder={
 							mode === "listen"
 								? "Je vous écoute..."

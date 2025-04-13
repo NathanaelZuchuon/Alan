@@ -1,61 +1,41 @@
 "use client";
 
-import React, { use, useEffect, useState } from "react";
-import {
-	User,
-	Circle,
-	PaperclipIcon,
-	Mic,
-	Send,
-	CheckCheck,
-	Check,
-	ChevronLeft,
-	ChevronRight,
-	Bot,
-} from "lucide-react";
+import { v4 as uuidv4 } from "uuid";
+import React, { useState } from "react";
+import { Bot, Mic, Send, Check, CheckCheck, PaperclipIcon } from "lucide-react";
 
-import { colors } from "../styles/colors";
+import { Message } from "@/types/interfaces";
+import { formatTime } from "@/utils/dateFormat";
+import { useChat } from "@/context/ChatContext";
 
-export default function Conversation() {
+export const Conversation: React.FC = () => {
 	const [message, setMessage] = useState("");
 	const [sliderPosition, setSliderPosition] = useState(1); // 0: rouge, 1: orange, 2: vert
 
 	// Messages d'exemple
-	const messages = [
-		{
-			id: 1,
-			text: "Bonjour, comment ça va aujourd'hui?",
-			sender: "me",
-			time: "09:45",
-			read: true,
-		},
-		{
-			id: 2,
-			text: "Je vais bien, merci! Je travaille sur le projet Alan Chat. Et toi?",
-			sender: "other",
-			time: "09:47",
-			read: true,
-		},
-		{
-			id: 3,
-			text: "Super! J'avance bien sur l'interface. Est-ce que tu as eu le temps de regarder les maquettes que j'ai envoyées hier?",
-			sender: "me",
-			time: "09:50",
-			read: true,
-		},
-		{
-			id: 4,
-			text: "Oui, j'ai vu les maquettes. Je trouve que le design est vraiment élégant et intuitif. J'ai quelques suggestions à te faire pour améliorer l'expérience utilisateur.",
-			sender: "other",
-			time: "09:55",
-			read: false,
-		},
-	];
+	const { currentConversation, setCurrentConversation } = useChat();
 
 	const handleSendMessage = () => {
-		if (message.trim()) {
+		if (message.trim() && currentConversation) {
 			// Logique pour envoyer le message
-			console.log("Message envoyé:", message);
+			const newMessage: Message = {
+				id: uuidv4(),
+				content: message,
+				isSended: true,
+				sender: sliderPosition === 2 ? "alan" : "me",
+				timestamp: new Date(),
+				hasBeenRead: false,
+			};
+
+			const newMessages = [...currentConversation.contact.messages, newMessage];
+			currentConversation.contact.messages = newMessages;
+
+			const updatedConversation = {
+				contact: currentConversation.contact,
+				lastMessage: newMessage,
+			};
+
+			setCurrentConversation(updatedConversation);
 			setMessage("");
 		}
 	};
@@ -84,6 +64,22 @@ export default function Conversation() {
 		setSliderPosition((prev) => (prev + 1) % 3);
 	};
 
+	if (currentConversation === null) {
+		return (
+			<div className="flex flex-col items-center justify-center h-full text-center p-6">
+				<div className="animate-pulse">
+					<h1 className="text-4xl font-bold text-purple-600 mb-4">
+						Bienvenue à YowTalk
+					</h1>
+					<p className="text-gray-600 max-w-md mx-auto">
+						Sélectionnez une conversation pour commencer à discuter avec
+						vos contacts.
+					</p>
+				</div>
+			</div>
+		);
+	}
+
 	return (
 		<div className="flex flex-col h-screen bg-gray-50">
 			{/* Conteneur principal divisé en 3 parties verticales */}
@@ -96,16 +92,24 @@ export default function Conversation() {
 				<div className="flex items-center flex-1">
 					<div className="relative">
 						<div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
-							<User size={32} className="text-gray-500" />
-							{/* Remplacer par <img src="profile.jpg" alt="Profile" className="w-full h-full object-cover" /> */}
+							{/* <User size={32} className="text-gray-500" /> */}
+							<img
+								src={currentConversation.contact.avatar}
+								alt="Profile"
+								className="w-full h-full object-cover"
+							/>
 						</div>
 						<div
 							className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white bg-${true ? "snappy-purple" : "snappy-gray"}`}
 						></div>
 					</div>
 					<div className="ml-3">
-						<h3 className="font-medium text-gray-800">Nathanael Zuchuon</h3>
-						<p className="text-sm text-gray-500">En ligne</p>
+						<h3 className="font-medium text-gray-800">
+							{currentConversation.contact.name}
+						</h3>
+						<p className="text-sm text-gray-500">
+							{currentConversation.contact.isOnline.toString()}
+						</p>
 					</div>
 				</div>
 				<div className="flex items-center">
@@ -131,32 +135,32 @@ export default function Conversation() {
 			</div>
 
 			{/* 2. Zone de messages */}
-			<div className="flex-1 overflow-y-auto p-4 bg-snappy-gray">
-				{messages.map((msg) => (
+			<div className="flex-1 flex-col overflow-y-auto p-4 bg-snappy-gray">
+				{currentConversation.contact.messages.map((msg) => (
 					<div
 						key={msg.id}
-						className={`mb-4 max-w-[55%] ${msg.sender === "me" ? "ml-auto" : ""}`}
+						className={`mb-4 w-full flex ${msg.isSended ? "justify-end" : "justify-start"}`}
 					>
 						<div
-							className={`p-3 rounded-lg relative ${
-								msg.sender === "me"
-									? "bg-snappy-purple text-white rounded-br-none"
-									: "bg-white text-gray-800 rounded-bl-none shadow-sm"
+							className={`p-3 rounded-lg relative max-w-[45%] ${
+							msg.isSended
+								? "bg-snappy-purple text-white rounded-br-none"
+								: "bg-white text-gray-800 rounded-bl-none shadow-sm"
 							}`}
 						>
-							{msg.text}
+							<div className="break-words">{msg.content}</div>
 							<div
 								className={`flex items-center text-xs mt-1 ${
-									msg.sender === "me" ? "text-purple-200" : "text-gray-500"
+									msg.isSended
+									? "text-white"
+									: "text-gray-800"
 								}`}
 							>
 								<span>
-									{msg.read ? <CheckCheck size={14} /> : <Check size={14} />}
+									{msg.hasBeenRead ? (<CheckCheck size={14} />) : (<Check size={14} />)}
 								</span>
-								<span className="ml-1">{msg.time}</span>
-								<span className="ml-1">
-									<Bot size={14} />
-								</span>
+								<span className="ml-1">{formatTime(msg.timestamp)}</span>
+								{msg.sender === "alan" && (<span className="ml-1"><Bot size={14} /></span>)}
 							</div>
 						</div>
 					</div>
@@ -185,7 +189,10 @@ export default function Conversation() {
 							value={message}
 							disabled={sliderPosition === 2}
 							onChange={(e) => setMessage(e.target.value)}
-							rows={Math.min(4, Math.max(1, message.split("\n").length))}
+							rows={Math.min(
+								4,
+								Math.max(1, message.split("\n").length)
+							)}
 							style={{ lineHeight: "1.1" }}
 							onKeyDown={(e) => {
 								if (e.key === "Enter" && !e.shiftKey) {
@@ -209,4 +216,4 @@ export default function Conversation() {
 			</div>
 		</div>
 	);
-}
+};

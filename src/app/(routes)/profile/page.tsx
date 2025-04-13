@@ -76,7 +76,10 @@ export default function ProfilePage() {
 									type="text"
 									value={editedProfile.name}
 									onChange={(e) =>
-										setEditedProfile({ ...editedProfile, name: e.target.value })
+										setEditedProfile({
+											...editedProfile,
+											name: e.target.value,
+										})
 									}
 									className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
 								/>
@@ -94,7 +97,10 @@ export default function ProfilePage() {
 								<textarea
 									value={editedProfile.bio}
 									onChange={(e) =>
-										setEditedProfile({ ...editedProfile, bio: e.target.value })
+										setEditedProfile({
+											...editedProfile,
+											bio: e.target.value,
+										})
 									}
 									className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
 									rows={3}
@@ -102,9 +108,13 @@ export default function ProfilePage() {
 							</div>
 						) : (
 							<div>
-								<h1 className="text-2xl font-bold text-gray-900">{profile.name}</h1>
+								<h1 className="text-2xl font-bold text-gray-900">
+									{profile.name}
+								</h1>
 								<p className="text-gray-600">{profile.email}</p>
-								<p className="mt-2 text-gray-700">{profile.bio}</p>
+								<p className="mt-2 text-gray-700">
+									{profile.bio}
+								</p>
 							</div>
 						)}
 						<div className="flex space-x-2">
@@ -152,7 +162,9 @@ export default function ProfilePage() {
 							<span className="block text-2xl font-bold text-gray-900">
 								{profile.stats.sharedFiles}
 							</span>
-							<span className="text-gray-600">Fichiers partagés</span>
+							<span className="text-gray-600">
+								Fichiers partagés
+							</span>
 						</div>
 					</div>
 
@@ -195,7 +207,8 @@ export default function ProfilePage() {
 									/>
 								</svg>
 								<span className="text-gray-600">
-									Dernière activité : il y a {profile.lastActive}
+									Dernière activité : il y a{" "}
+									{profile.lastActive}
 								</span>
 							</div>
 						</div>

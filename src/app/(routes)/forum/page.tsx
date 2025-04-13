@@ -51,7 +51,10 @@ export default function AddContactPage() {
 								required
 								value={newContact.name}
 								onChange={(e) =>
-									setNewContact({ ...newContact, name: e.target.value })
+									setNewContact({
+										...newContact,
+										name: e.target.value,
+									})
 								}
 								className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
 								placeholder="John Doe"
@@ -67,7 +70,10 @@ export default function AddContactPage() {
 								required
 								value={newContact.email}
 								onChange={(e) =>
-									setNewContact({ ...newContact, email: e.target.value })
+									setNewContact({
+										...newContact,
+										email: e.target.value,
+									})
 								}
 								className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
 								placeholder="john@example.com"
@@ -82,7 +88,10 @@ export default function AddContactPage() {
 								type="tel"
 								value={newContact.phone}
 								onChange={(e) =>
-									setNewContact({ ...newContact, phone: e.target.value })
+									setNewContact({
+										...newContact,
+										phone: e.target.value,
+									})
 								}
 								className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
 								placeholder="+33 6 12 34 56 78"
@@ -96,7 +105,10 @@ export default function AddContactPage() {
 							<select
 								value={newContact.group}
 								onChange={(e) =>
-									setNewContact({ ...newContact, group: e.target.value })
+									setNewContact({
+										...newContact,
+										group: e.target.value,
+									})
 								}
 								className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
 							>
@@ -135,10 +147,16 @@ export default function AddContactPage() {
 						<div key={index} className="p-4 hover:bg-gray-50">
 							<div className="flex items-center justify-between">
 								<div>
-									<h3 className="font-medium">{contact.name}</h3>
-									<p className="text-sm text-gray-600">{contact.email}</p>
+									<h3 className="font-medium">
+										{contact.name}
+									</h3>
+									<p className="text-sm text-gray-600">
+										{contact.email}
+									</p>
 									{contact.phone && (
-										<p className="text-sm text-gray-500">{contact.phone}</p>
+										<p className="text-sm text-gray-500">
+											{contact.phone}
+										</p>
 									)}
 								</div>
 								<span className="px-3 py-1 text-sm rounded-full bg-gray-100 text-gray-600">

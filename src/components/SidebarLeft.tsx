@@ -33,7 +33,12 @@ export default function SidebarLeft() {
 	// Icônes personnalisées SVG
 	const Icons = {
 		Profile: () => (
-			<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+			<svg
+				className="w-6 h-6"
+				fill="none"
+				stroke="currentColor"
+				viewBox="0 0 24 24"
+			>
 				<path
 					strokeLinecap="round"
 					strokeLinejoin="round"
@@ -43,7 +48,12 @@ export default function SidebarLeft() {
 			</svg>
 		),
 		Forum: () => (
-			<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+			<svg
+				className="w-6 h-6"
+				fill="none"
+				stroke="currentColor"
+				viewBox="0 0 24 24"
+			>
 				<path
 					strokeLinecap="round"
 					strokeLinejoin="round"
@@ -53,7 +63,12 @@ export default function SidebarLeft() {
 			</svg>
 		),
 		Alan: () => (
-			<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+			<svg
+				className="w-6 h-6"
+				fill="none"
+				stroke="currentColor"
+				viewBox="0 0 24 24"
+			>
 				<path
 					strokeLinecap="round"
 					strokeLinejoin="round"
@@ -63,7 +78,12 @@ export default function SidebarLeft() {
 			</svg>
 		),
 		Settings: () => (
-			<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+			<svg
+				className="w-6 h-6"
+				fill="none"
+				stroke="currentColor"
+				viewBox="0 0 24 24"
+			>
 				<path
 					strokeLinecap="round"
 					strokeLinejoin="round"
@@ -91,7 +111,7 @@ export default function SidebarLeft() {
 						alt="Profile"
 						className="w-full h-full rounded-full object-cover transition-shadow duration-200 hover:shadow-[0_0_8px_rgba(59,130,246,0.4)]"
 					/>
-					<div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-gray-900"></div>
+					<div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-snappy-green rounded-full border-2 border-gray-900"></div>
 				</div>
 			),
 		},
@@ -99,7 +119,12 @@ export default function SidebarLeft() {
 			path: "/new-chat",
 			label: "Nouvelle discussion",
 			icon: (
-				<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<svg
+					className="w-6 h-6"
+					fill="none"
+					stroke="currentColor"
+					viewBox="0 0 24 24"
+				>
 					<path
 						strokeLinecap="round"
 						strokeLinejoin="round"
@@ -123,12 +148,14 @@ export default function SidebarLeft() {
 	];
 
 	return (
-		<div className="w-[72px] h-screen bg-gray-900 flex flex-col items-center justify-between py-4 fixed left-0 top-0 z-50">
+		<div className="w-[72px] h-screen bg-snappy-dark-blue flex flex-col items-center justify-between py-4 fixed left-0 top-0 z-50">
 			<div className="flex flex-col items-center space-y-8">
 				{navItems.map((item) => (
 					<button
 						key={item.path}
-						onClick={() => handleNavigation(item.path, item.onClick)}
+						onClick={() =>
+							handleNavigation(item.path, item.onClick)
+						}
 						className={`relative ${
 							item.path === "/profile"
 								? "p-0 hover:bg-transparent"
